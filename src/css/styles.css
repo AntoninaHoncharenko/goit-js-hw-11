@@ -30,6 +30,7 @@ h2 {
   background-color: transparent;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 input {
@@ -73,4 +74,23 @@ input {
 input:hover,
 input:focus {
   border-color: cornflowerblue;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: -10px;
+  margin-bottom: -10px;
+}
+
+.photo-card {
+  width: calc((100% - 4 * 20px) / 4);
+  margin: 10px;
+}
+
+img {
+  display: block;
+  height: 250px;
+  width: 100%;
+  object-fit: cover;
 }
