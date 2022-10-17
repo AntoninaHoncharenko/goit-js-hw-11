@@ -10,6 +10,7 @@ const apiService = new ApiService();
 const refs = {
   form: document.querySelector('.search-form'),
   loadmoreBtn: document.querySelector('.load-more'),
+  gallery: document.querySelector('.gallery'),
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
@@ -42,7 +43,18 @@ async function onFormSubmit(event) {
     }
 
     Notify.success(`Hooray! We found ${totalHits} images.`);
+    clearMarkup();
+
+    hits.forEach(hit => {
+      const markup = createMarkup(hit);
+      console.log(markup);
+      refs.gallery.insertAdjacentHTML('beforeend', markup);
+    });
   } catch (error) {
     console.log(error);
   }
+}
+
+function clearMarkup() {
+  refs.gallery.innerHTML = '';
 }
