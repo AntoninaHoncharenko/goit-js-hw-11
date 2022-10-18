@@ -27,54 +27,72 @@ h2 {
 .search-form {
   display: flex;
   justify-content: center;
-  background-color: transparent;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  background-color: darkgreen;
+  padding-top: 20px;
+  padding-bottom: 20px;
   margin-bottom: 20px;
 }
 
 input {
-  margin-right: 10px;
-  width: 200px;
+  width: 250px;
   height: 40px;
   padding-left: 15px;
   padding-right: 15px;
-  border: 2px solid dodgerblue;
-  border-radius: 4px;
+  border: 1px solid black;
+  border-radius: 6px 0px 0px 6px;
   background-color: #ffffff;
   outline: none;
+  cursor: pointer;
 }
 
-.search-btn,
-.load-more {
-  width: 100px;
+.search-btn {
+  width: 40px;
   height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 4px;
   border: none;
   outline: none;
-  background-color: dodgerblue;
-  color: white;
+  border: 1px solid black;
+  background-color: rgb(202, 194, 194);
+  border-radius: 0px 6px 6px 0px;
+  cursor: pointer;
+}
+
+.search-btn::before {
+  content: '';
+  display: inline-block;
+  background-image: url('https://img.icons8.com/ios-filled/50/000000/search--v1.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
 }
 
 .load-more {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 20px;
+  width: 100px;
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  background-color: darkgreen;
+  color: white;
+  cursor: pointer;
 }
 
-.search-btn:hover,
+/* .search-btn:hover,
 .search-btn:focus,
 .load-more:hover,
 .load-more:focus {
-  background-color: cornflowerblue;
-}
+  background-color: rgb(67, 136, 67);
+} */
 
-input:hover,
+/* input:hover,
 input:focus {
   border-color: cornflowerblue;
-}
+} */
 
 .gallery {
   display: flex;
