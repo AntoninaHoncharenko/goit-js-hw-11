@@ -1,9 +1,9 @@
 import '../css/styles.css';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import SimpleLightbox from 'simplelightbox';
 import { createMarkup } from './createMarkup';
 import { ApiService } from './APIservice';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const apiService = new ApiService();
 
@@ -14,11 +14,12 @@ const refs = {
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
+refs.loadmoreBtn.addEventListener('click', onLoadMore);
 
 async function onFormSubmit(event) {
   event.preventDefault();
   apiService.query = event.currentTarget.elements.searchQuery.value.trim();
-
+  apiService.page = 1;
   refs.form.reset();
 
   try {
@@ -31,14 +32,15 @@ async function onFormSubmit(event) {
     }
 
     const { hits, totalHits } = await apiService.fetchImages();
-    console.log(hits);
-    console.log(totalHits);
+    apiService.page += 1;
 
     if (hits.length < 1) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.',
         { clickToClose: true }
       );
+      refs.loadmoreBtn.classList.add('is-hidden');
+      clearMarkup();
       return;
     }
 
@@ -47,8 +49,18 @@ async function onFormSubmit(event) {
 
     hits.forEach(hit => {
       const markup = createMarkup(hit);
-      console.log(markup);
       refs.gallery.insertAdjacentHTML('beforeend', markup);
+    });
+
+    if (totalHits <= apiService.perPage) {
+      refs.loadmoreBtn.classList.add('is-hidden');
+    } else {
+      refs.loadmoreBtn.classList.remove('is-hidden');
+    }
+
+    const lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
     });
   } catch (error) {
     console.log(error);
@@ -58,3 +70,22 @@ async function onFormSubmit(event) {
 function clearMarkup() {
   refs.gallery.innerHTML = '';
 }
+
+async function onLoadMore() {
+  try {
+    const { hits, totalHits } = await apiService.fetchImages();
+    apiService.page += 1;
+    hits.forEach(hit => {
+      const markup = createMarkup(hit);
+      refs.gallery.insertAdjacentHTML('beforeend', markup);
+    });
+    const lightbox = new SimpleLightbox('.gallery a', {
+      captionsData: 'alt',
+      captionDelay: 250,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// оптимізувати clearMarkup() та is-hidden
