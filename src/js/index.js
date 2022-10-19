@@ -63,6 +63,8 @@ async function onFormSubmit(event) {
       captionsData: 'alt',
       captionDelay: 250,
     });
+
+    lightbox.refresh();
   } catch (error) {
     console.log(error);
   }
@@ -90,6 +92,7 @@ async function onLoadMore() {
       captionsData: 'alt',
       captionDelay: 250,
     });
+    lightbox.refresh();
   } catch (error) {
     console.log(error);
   }
