@@ -36,6 +36,7 @@ async function onFormSubmit(event) {
     const { hits, totalHits } = await apiService.fetchImages();
     apiService.incrementPage();
     apiService.calculateTotalPages(totalHits);
+    console.log(apiService.totalPages);
 
     if (hits.length < 1) {
       Notify.failure(
@@ -53,12 +54,7 @@ async function onFormSubmit(event) {
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
 
-    if (
-      totalHits <= apiService.perPage ||
-      apiService.page === apiService.totalPages
-    ) {
-      refs.loadmoreBtn.classList.add('is-hidden');
-    } else {
+    if (apiService.isShowLoadMoreBtn) {
       refs.loadmoreBtn.classList.remove('is-hidden');
     }
 
@@ -84,6 +80,10 @@ async function onLoadMore() {
       const markup = createMarkup(hit);
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
+
+    if (!apiService.isShowLoadMoreBtn) {
+      refs.loadmoreBtn.classList.add('is-hidden');
+    }
 
     const lightbox = new SimpleLightbox('.gallery a', {
       captionsData: 'alt',
