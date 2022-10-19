@@ -35,6 +35,7 @@ async function onFormSubmit(event) {
 
     const { hits, totalHits } = await apiService.fetchImages();
     apiService.incrementPage();
+
     apiService.calculateTotalPages(totalHits);
     console.log(apiService.totalPages);
 
@@ -43,7 +44,7 @@ async function onFormSubmit(event) {
         'Sorry, there are no images matching your search query. Please try again.',
         { clickToClose: true }
       );
-      refs.loadmoreBtn.classList.add('is-hidden');
+      // refs.loadmoreBtn.classList.add('is-hidden');
       return;
     }
 

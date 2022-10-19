@@ -36,7 +36,7 @@ export class ApiService {
   }
 
   get isShowLoadMoreBtn() {
-    return this.page < this.totalPages;
+    return this.page <= this.totalPages;
   }
   // refs.loadmoreBtn.classList.remove('is-hidden');
 }
