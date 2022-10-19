@@ -23,7 +23,6 @@ async function onFormSubmit(event) {
   clearMarkup();
   refs.loadmoreBtn.classList.add('is-hidden');
   apiService.page = 1;
-  window.scrollTo(0, 1000);
 
   try {
     if (apiService.searchQuery === '') {
