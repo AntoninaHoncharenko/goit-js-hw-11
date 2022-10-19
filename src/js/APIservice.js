@@ -5,6 +5,7 @@ export class ApiService {
     this.searchQuery = '';
     this.page = 1;
     this.perPage = 40;
+    this.totalPages = 0;
   }
   async fetchImages() {
     console.log(this);
@@ -25,4 +26,17 @@ export class ApiService {
   set query(newQuery) {
     this.searchQuery = newQuery;
   }
+
+  incrementPage() {
+    this.page += 1;
+  }
+
+  calculateTotalPages(total) {
+    this.totalPages = Math.ceil(total / this.perPage);
+  }
+
+  get isShowLoadMoreBtn() {
+    return this.page < this.totalPages;
+  }
+  // тоді refs.loadmoreBtn.classList.remove('is-hidden');
 }

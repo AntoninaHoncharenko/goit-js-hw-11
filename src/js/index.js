@@ -19,8 +19,10 @@ refs.loadmoreBtn.addEventListener('click', onLoadMore);
 async function onFormSubmit(event) {
   event.preventDefault();
   apiService.query = event.currentTarget.elements.searchQuery.value.trim();
-  apiService.page = 1;
   refs.form.reset();
+  clearMarkup();
+  refs.loadmoreBtn.classList.add('is-hidden');
+  apiService.page = 1;
 
   try {
     if (apiService.searchQuery === '') {
@@ -32,7 +34,8 @@ async function onFormSubmit(event) {
     }
 
     const { hits, totalHits } = await apiService.fetchImages();
-    apiService.page += 1;
+    apiService.incrementPage();
+    apiService.calculateTotalPages(totalHits);
 
     if (hits.length < 1) {
       Notify.failure(
@@ -40,19 +43,20 @@ async function onFormSubmit(event) {
         { clickToClose: true }
       );
       refs.loadmoreBtn.classList.add('is-hidden');
-      clearMarkup();
       return;
     }
 
     Notify.success(`Hooray! We found ${totalHits} images.`);
-    clearMarkup();
 
     hits.forEach(hit => {
       const markup = createMarkup(hit);
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
 
-    if (totalHits <= apiService.perPage) {
+    if (
+      totalHits <= apiService.perPage ||
+      apiService.page === apiService.totalPages
+    ) {
       refs.loadmoreBtn.classList.add('is-hidden');
     } else {
       refs.loadmoreBtn.classList.remove('is-hidden');
@@ -74,11 +78,13 @@ function clearMarkup() {
 async function onLoadMore() {
   try {
     const { hits, totalHits } = await apiService.fetchImages();
-    apiService.page += 1;
+    apiService.incrementPage();
+
     hits.forEach(hit => {
       const markup = createMarkup(hit);
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
+
     const lightbox = new SimpleLightbox('.gallery a', {
       captionsData: 'alt',
       captionDelay: 250,
@@ -88,4 +94,4 @@ async function onLoadMore() {
   }
 }
 
-// оптимізувати clearMarkup() та is-hidden
+// оптимізувати is-hidden, lightbox
