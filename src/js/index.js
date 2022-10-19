@@ -63,7 +63,6 @@ async function onFormSubmit(event) {
       captionsData: 'alt',
       captionDelay: 250,
     });
-
     lightbox.refresh();
   } catch (error) {
     console.log(error);
@@ -84,7 +83,17 @@ async function onLoadMore() {
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
 
-    // window.scrollBy(0, 100);
+    // --------------------
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
+
+    // --------------
 
     if (!apiService.isShowLoadMoreBtn) {
       refs.loadmoreBtn.classList.add('is-hidden');
@@ -100,4 +109,4 @@ async function onLoadMore() {
   }
 }
 
-// оптимізувати is-hidden, lightbox
+// оптимізувати is-hidden, lightbox, scroll
