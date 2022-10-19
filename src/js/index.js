@@ -23,6 +23,7 @@ async function onFormSubmit(event) {
   clearMarkup();
   refs.loadmoreBtn.classList.add('is-hidden');
   apiService.page = 1;
+  window.scroll(0, 100);
 
   try {
     if (apiService.searchQuery === '') {
@@ -84,7 +85,6 @@ async function onLoadMore() {
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
 
-    window.scroll(0, 100);
     // window.scrollBy(0, 100);
 
     if (!apiService.isShowLoadMoreBtn) {
