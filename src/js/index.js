@@ -84,8 +84,8 @@ async function onLoadMore() {
       refs.gallery.insertAdjacentHTML('beforeend', markup);
     });
 
-    // window.scroll(0, 100);
-    window.scrollBy(0, 100);
+    window.scroll(0, 100);
+    // window.scrollBy(0, 100);
 
     if (!apiService.isShowLoadMoreBtn) {
       refs.loadmoreBtn.classList.add('is-hidden');
