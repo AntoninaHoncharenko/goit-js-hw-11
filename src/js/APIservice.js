@@ -8,7 +8,6 @@ export class ApiService {
     this.totalPages = 0;
   }
   async fetchImages() {
-    console.log(this);
     //   axios.defaults.baseURL = 'https://pixabay.com/api/';
     //   axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
     const BASE_URL = 'https://pixabay.com/api/';
@@ -29,6 +28,10 @@ export class ApiService {
 
   incrementPage() {
     this.page += 1;
+  }
+
+  resetPage() {
+    this.page = 1;
   }
 
   calculateTotalPages(total) {
