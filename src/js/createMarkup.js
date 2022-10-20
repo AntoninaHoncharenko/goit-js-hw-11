@@ -1,15 +1,16 @@
-export function createMarkup(hit) {
-  const {
-    webformatURL,
-    tags,
-    largeImageURL,
-    likes,
-    views,
-    comments,
-    downloads,
-  } = hit;
-
-  return `<div class="photo-card">
+export function createMarkup(hits) {
+  return hits
+    .map(
+      ({
+        webformatURL,
+        tags,
+        largeImageURL,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
+        return `<div class="photo-card">
   <a href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
@@ -30,4 +31,7 @@ export function createMarkup(hit) {
     </p>
   </div>
 </div>`;
+      }
+    )
+    .join('');
 }

@@ -32,7 +32,6 @@ async function onFormSubmit(event) {
 
   try {
     const { hits, totalHits } = await apiService.fetchImages();
-    apiService.incrementPage();
 
     apiService.calculateTotalPages(totalHits);
 
@@ -43,16 +42,18 @@ async function onFormSubmit(event) {
       Notify.success(`Hooray! We found ${totalHits} images.`);
     }
 
-    hits.forEach(hit => {
-      const markup = createMarkup(hit);
-      refs.gallery.insertAdjacentHTML('beforeend', markup);
-    });
+    appendMarkup(hits);
 
     if (apiService.isShowLoadMoreBtn) {
       refs.loadmoreBtn.classList.remove('is-hidden');
     }
 
+    console.log(apiService.totalPages);
+    console.log(apiService.page);
+
     addSimpleLightbox();
+
+    apiService.incrementPage();
   } catch (error) {
     console.log(error.message);
   }
@@ -63,23 +64,32 @@ refs.loadmoreBtn.addEventListener('click', onLoadMoreBtn);
 async function onLoadMoreBtn() {
   try {
     const { hits, totalHits } = await apiService.fetchImages();
-    apiService.incrementPage();
 
-    hits.forEach(hit => {
-      const markup = createMarkup(hit);
-      refs.gallery.insertAdjacentHTML('beforeend', markup);
-    });
+    appendMarkup(hits);
 
     addSmoothScroll();
 
     if (!apiService.isShowLoadMoreBtn) {
       refs.loadmoreBtn.classList.add('is-hidden');
+      Notify.warning(
+        'We are sorry, but you have reached the end of search results.'
+      );
     }
 
+    console.log(apiService.totalPages);
+    console.log(apiService.page);
+
     addSimpleLightbox();
+
+    apiService.incrementPage();
   } catch (error) {
     console.log(error);
   }
+}
+
+function appendMarkup(hits) {
+  const markup = createMarkup(hits);
+  refs.gallery.insertAdjacentHTML('beforeend', markup);
 }
 
 function clearMarkup() {
