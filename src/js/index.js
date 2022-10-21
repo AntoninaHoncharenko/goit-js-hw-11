@@ -47,21 +47,9 @@ async function onFormSubmit(event) {
 
     refs.loadmoreBtn.classList.remove('is-hidden');
 
-    if (apiService.totalPages === apiService.page) {
-      refs.loadmoreBtn.addEventListener('click', () => {
-        refs.loadmoreBtn.classList.add('is-hidden');
-        Notify.warning(
-          'We are sorry, but you have reached the end of search results.'
-        );
-      });
-    }
-
-    refs.loadmoreBtn.classList.remove('is-hidden');
-
-    console.log(apiService.totalPages);
-    console.log(apiService.page);
-
     addSimpleLightbox();
+
+    onImagesEnd();
 
     apiService.incrementPage();
   } catch (error) {
@@ -79,27 +67,9 @@ async function onLoadMoreBtn() {
 
     addSmoothScroll();
 
-    // if (!apiService.isShowLoadMoreBtn) {
-    //   refs.loadmoreBtn.classList.add('is-hidden');
-    //   Notify.warning(
-    //     'We are sorry, but you have reached the end of search results.'
-    //   );
-    // }
     addSimpleLightbox();
 
-    console.log(apiService.totalPages);
-    console.log(apiService.page);
-
-    if (apiService.totalPages === apiService.page) {
-      refs.loadmoreBtn.addEventListener('click', () => {
-        refs.loadmoreBtn.classList.add('is-hidden');
-        Notify.warning(
-          'We are sorry, but you have reached the end of search results.'
-        );
-      });
-    }
-
-    addSimpleLightbox();
+    onImagesEnd();
 
     apiService.incrementPage();
   } catch (error) {
@@ -121,4 +91,16 @@ function notificOnErrorFetch() {
     'Sorry, there are no images matching your search query. Please try again.',
     { clickToClose: true }
   );
+}
+
+function onImagesEnd() {
+  console.log(apiService.page);
+  console.log(apiService.totalPages);
+
+  if (apiService.page > apiService.totalPages) {
+    refs.loadmoreBtn.classList.add('is-hidden');
+    Notify.warning(
+      'We are sorry, but you have reached the end of search results.'
+    );
+  }
 }
