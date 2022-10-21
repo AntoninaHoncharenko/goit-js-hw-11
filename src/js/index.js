@@ -45,7 +45,13 @@ async function onFormSubmit(event) {
 
     appendMarkup(hits);
 
-    refs.loadmoreBtn.classList.remove('is-hidden');
+    console.log(hits.length);
+
+    if (totalHits <= apiService.perPage) {
+      refs.loadmoreBtn.classList.add('is-hidden');
+    } else {
+      refs.loadmoreBtn.classList.remove('is-hidden');
+    }
 
     addSimpleLightbox();
 
