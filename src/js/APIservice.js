@@ -38,7 +38,7 @@ export class ApiService {
     this.totalPages = Math.ceil(total / this.perPage);
   }
 
-  get isShowLoadMoreBtn() {
-    return this.page < this.totalPages;
-  }
+  // get isShowLoadMoreBtn() {
+  //   return this.page <= this.totalPages;
+  // }
 }

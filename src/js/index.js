@@ -23,6 +23,7 @@ async function onFormSubmit(event) {
   refs.form.reset();
   clearMarkup();
   refs.loadmoreBtn.classList.add('is-hidden');
+
   apiService.resetPage();
 
   if (apiService.searchQuery === '') {
@@ -44,9 +45,18 @@ async function onFormSubmit(event) {
 
     appendMarkup(hits);
 
-    if (apiService.isShowLoadMoreBtn) {
-      refs.loadmoreBtn.classList.remove('is-hidden');
+    refs.loadmoreBtn.classList.remove('is-hidden');
+
+    if (apiService.totalPages === apiService.page) {
+      refs.loadmoreBtn.addEventListener('click', () => {
+        refs.loadmoreBtn.classList.add('is-hidden');
+        Notify.warning(
+          'We are sorry, but you have reached the end of search results.'
+        );
+      });
     }
+
+    refs.loadmoreBtn.classList.remove('is-hidden');
 
     console.log(apiService.totalPages);
     console.log(apiService.page);
@@ -69,15 +79,25 @@ async function onLoadMoreBtn() {
 
     addSmoothScroll();
 
-    if (!apiService.isShowLoadMoreBtn) {
-      refs.loadmoreBtn.classList.add('is-hidden');
-      Notify.warning(
-        'We are sorry, but you have reached the end of search results.'
-      );
-    }
+    // if (!apiService.isShowLoadMoreBtn) {
+    //   refs.loadmoreBtn.classList.add('is-hidden');
+    //   Notify.warning(
+    //     'We are sorry, but you have reached the end of search results.'
+    //   );
+    // }
+    addSimpleLightbox();
 
     console.log(apiService.totalPages);
     console.log(apiService.page);
+
+    if (apiService.totalPages === apiService.page) {
+      refs.loadmoreBtn.addEventListener('click', () => {
+        refs.loadmoreBtn.classList.add('is-hidden');
+        Notify.warning(
+          'We are sorry, but you have reached the end of search results.'
+        );
+      });
+    }
 
     addSimpleLightbox();
 
