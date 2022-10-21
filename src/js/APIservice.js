@@ -1,4 +1,7 @@
 import axios from 'axios';
+axios.defaults.baseURL = 'https://pixabay.com/api/';
+// axios.defaults.headers.common['Authorization'] =
+//   '30659644-d62c8c976bf0a1f367dc53c1a';
 
 export class ApiService {
   constructor() {
@@ -6,15 +9,21 @@ export class ApiService {
     this.page = 1;
     this.perPage = 40;
     this.totalPages = 0;
+    this.params = {
+      params: {
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: true,
+      },
+    };
   }
-  async fetchImages() {
-    //   axios.defaults.baseURL = 'https://pixabay.com/api/';
-    //   axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-    const BASE_URL = 'https://pixabay.com/api/';
-    const KEY = '30659644-d62c8c976bf0a1f367dc53c1a';
-    const url = `${BASE_URL}?key=${KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=${this.perPage}`;
 
-    const { data } = await axios.get(url);
+  async fetchImages() {
+    // const BASE_URL = 'https://pixabay.com/api/';
+    const KEY = '30659644-d62c8c976bf0a1f367dc53c1a';
+    const url = `?key=${KEY}&q=${this.searchQuery}&page=${this.page}&per_page=${this.perPage}`;
+
+    const { data } = await axios.get(url, this.params);
     return data;
   }
 
