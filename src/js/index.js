@@ -45,8 +45,6 @@ async function onFormSubmit(event) {
 
     appendMarkup(hits);
 
-    console.log(apiService.page);
-
     if (apiService.page === apiService.totalPages) {
       refs.loadmoreBtn.classList.add('is-hidden');
       Notify.warning(
